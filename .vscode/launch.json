@@ -20,7 +20,8 @@
 					"value": "."
 				}
 			],
-			"externalConsole": true,
+			"externalConsole": false,
+			"internalConsoleOptions": "openOnFirstSessionStart",
 			"MIMode": "gdb",
 			"setupCommands": [
 				{

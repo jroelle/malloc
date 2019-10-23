@@ -7,7 +7,7 @@ void *malloc(size_t size)
 	if (!size)
 		return (NULL);
 	lock_mutex();
-	if (!*get_root(TINY) && !*get_root(SMALL))
+	if (!*get_root(TINY))
 	{
 		pre_allocate();
 	}

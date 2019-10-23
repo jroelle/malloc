@@ -88,7 +88,7 @@ void show_alloc_mem(void)
 			print("\t", NULL);
 			print_unum((int)iterator->size, 10, GRAY);
 			print("\t\t", NULL);
-			print(is_in_use(iterator) ? " IN USE\n" : " FREED\n", is_in_use(iterator) ? RED : GREEN);
+			print(is_in_use(iterator) ? " IN USE\n" : " FREE\n", is_in_use(iterator) ? RED : GREEN);
 			total_size += iterator->size;
 			total_payload_size += iterator->size - sizeof(t_chunk);
 			iterator = iterator->next;

@@ -3,19 +3,10 @@
 
 # include <pthread.h>
 # include <unistd.h>
-# include "libft/libft.h"
 
 # define TINY_COEFF 1
 # define SMALL_COEFF 16
 
-/*
-** chunk = memory information + allocated memory
-** chunk size = sizeof(t_chunk) + memory size
-** allocated memory = chunk pointer + sizeof(t_chunk)
-**
-** http://gee.cs.oswego.edu/pub/misc/malloc.c
-** see struct malloc_chunk
-*/
 typedef struct	s_chunk
 {
 	size_t			size;

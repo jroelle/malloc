@@ -112,9 +112,9 @@ int split_chunk(t_chunk *chunk, size_t first_size)
 	if (!chunk || first_size >= chunk->size)
 		return (0);
 	second_chunk = (t_chunk *)((char *)chunk + first_size);
-	second_chunk->size = chunk->size - first_size;
 	add_chunk_to_list(second_chunk, chunk->size - first_size);
 	set_free(second_chunk);
+	chunk->size = first_size;
 	return (1);
 }
 
