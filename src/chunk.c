@@ -1,7 +1,7 @@
 #include <sys/mman.h>
-#include "malloc.h"
+#include "../inc/malloc.h"
 
-#define MAX_ITER 10
+#define MAX_ITER 100
 #define PROT (PROT_READ | PROT_WRITE)
 #define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS)
 #define PRE_ALLOC_TINY_COEFF TINY_COEFF
@@ -132,7 +132,7 @@ void update_list(t_chunk *chunk)
 void update_unused(void)
 {
 	t_chunk *iterator;
-	t_chunk *tmp;
+	t_chunk *next;
 	t_type type;
 
 	type = 0;
@@ -141,13 +141,16 @@ void update_unused(void)
 		iterator = *get_root(type);
 		while (iterator)
 		{
-			++iterator->iterations;
-			tmp = iterator;
-			iterator = iterator->next;
-			if (!is_in_use(tmp) && tmp->iterations >= MAX_ITER)
+			next = iterator->next;
+			if (!is_in_use(iterator) && iterator->iterations >= MAX_ITER)
 			{
-				destroy_chunk(tmp);
+				destroy_chunk(iterator);
 			}
+			else
+			{
+				++iterator->iterations;
+			}
+			iterator = next;		
 		}
 		++type;
 	}

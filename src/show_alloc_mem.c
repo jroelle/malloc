@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "malloc.h"
+#include "../inc/malloc.h"
 
 #define DEFAULT "\x1b[39;49m"
 #define YELLOW "\x1b[33m"
@@ -62,6 +62,7 @@ void show_alloc_mem(void)
 	t_chunk *iterator;
 	size_t total_size;
 	size_t total_payload_size;
+	void *memory;
 
 	total_size = 0;
 	total_payload_size = 0;
@@ -69,35 +70,39 @@ void show_alloc_mem(void)
 	while (type < TYPE_COUNT)
 	{
 		iterator = *get_root(type);
-		print("\n\t\t\tROOT ", YELLOW);
+		print("\nROOT ", YELLOW);
 		print(type == TINY ? "TINY : " : (type == SMALL ? "SMALL : " : "LARGE : "), YELLOW);
 		print_hex(iterator, YELLOW);
 		if (type != LARGE)
 		{
-			print("\n\t\t\t\tMAX ", GRAY);
+			print("\nMAX ", GRAY);
 			print_unum(type == TINY ? TINY_COEFF * getpagesize() : SMALL_COEFF * getpagesize(), 10, GRAY);
 		}
-		print(iterator ? "\n\n\t     MEMORY\t\t\tPAYLOAD/CHUNK\t\tSTATE\n\n" : "\n\t\t\t\t-\n", GRAY);
+		print("\n", NULL);
 		while (iterator)
 		{
-			print_hex(iterator, NULL);
+			memory = get_memory(iterator);
+			print_hex(memory, NULL);
 			print(" - ", NULL);
-			print_hex(iterator + iterator->size, NULL);
-			print("\t\t", NULL);
+			print_hex(memory - sizeof(t_chunk) + iterator->size, NULL);
+			print("  ", NULL);
+			print_hex(iterator, GRAY);
+			print(" - ", GRAY);
+			print_hex(iterator + iterator->size, GRAY);
+			print(is_in_use(iterator) ? " IN USE " : " FREE ", is_in_use(iterator) ? RED : GREEN);
 			print_unum((int)(iterator->size - sizeof(t_chunk)), 10, NULL);
-			print("\t", NULL);
+			print(" (", GRAY);
 			print_unum((int)iterator->size, 10, GRAY);
-			print("\t\t", NULL);
-			print(is_in_use(iterator) ? " IN USE\n" : " FREE\n", is_in_use(iterator) ? RED : GREEN);
+			print(") bytes\n", GRAY);
 			total_size += iterator->size;
 			total_payload_size += iterator->size - sizeof(t_chunk);
 			iterator = iterator->next;
 		}
 		++type;
 	}
-	print("\n\t\t\t\t\t", NULL);
+	print("\nTotal : ", YELLOW);
 	print_unum(total_payload_size, 10, YELLOW);
-	print("\t", NULL);
+	print(" (", GRAY);
 	print_unum(total_size, 10, GRAY);
-	print("\n\n", NULL);
+	print(") bytes\n\n", GRAY);
 }

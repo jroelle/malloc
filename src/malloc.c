@@ -1,10 +1,10 @@
-#include "malloc.h"
+#include "../inc/malloc.h"
 
 void *malloc(size_t size)
 {
 	t_chunk *chunk;
 
-	if (!size)
+	if (size <= 0 || size >= (size_t)-1 - sizeof(t_chunk))
 		return (NULL);
 	lock_mutex();
 	if (!*get_root(TINY))
