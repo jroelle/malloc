@@ -33,7 +33,7 @@ void show_alloc_mem(void);
 t_chunk **get_root(t_type type);
 t_chunk *get_chunk(void *memory);
 void *get_memory(t_chunk *chunk);
-t_chunk *find_freed_chunk(size_t size);
+t_chunk *get_free_chunk(size_t size);
 void merge_chunks(t_chunk *chunk);
 void add_chunk_to_list(t_chunk *chunk, size_t chunk_size);
 void remove_chunk_from_list(t_chunk *chunk);

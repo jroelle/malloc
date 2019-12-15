@@ -84,11 +84,11 @@ void show_alloc_mem(void)
 			memory = get_memory(iterator);
 			print_hex(memory, NULL);
 			print(" - ", NULL);
-			print_hex(memory - sizeof(t_chunk) + iterator->size, NULL);
+			print_hex((char *)memory - sizeof(t_chunk) + iterator->size, NULL);
 			print("  ", NULL);
 			print_hex(iterator, GRAY);
 			print(" - ", GRAY);
-			print_hex(iterator + iterator->size, GRAY);
+			print_hex((char *)iterator + iterator->size, GRAY);
 			print(is_in_use(iterator) ? " IN USE " : " FREE ", is_in_use(iterator) ? RED : GREEN);
 			print_unum((int)(iterator->size - sizeof(t_chunk)), 10, NULL);
 			print(" (", GRAY);

@@ -12,7 +12,7 @@ void *malloc(size_t size)
 		pre_allocate();
 	}
 	size += sizeof(t_chunk);
-	chunk = find_freed_chunk(size);
+	chunk = get_free_chunk(size);
 	if (!chunk)
 	{
 		chunk = create_chunk(size);

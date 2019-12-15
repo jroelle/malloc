@@ -6,22 +6,19 @@ void show_alloc_mem();
 int main()
 {
 	char *array;
-	int n = 1;
-	size_t k = 70000;
-	int i_not_free = n / 2;
-	for (int i = 0; i < n; ++i)
+	int malloc_count = 20;
+	size_t malloc_size = 1000;
+	for (int i = 0; i < malloc_count; ++i)
 	{
-		array = malloc(k);
-		for (int j = 0; j < i && array; ++j)
+		array = malloc(malloc_size);
+		for (int j = 0; j < malloc_size && array; ++j)
 		{
-			array[j] = 'A' + j;
+			array[j] = 'A';
 		}
-		if (i != i_not_free)
-		{
-			//free(array);
-		}
-		k /= 2;
+		show_alloc_mem();
+		free(array);
+		show_alloc_mem();
+		malloc_size *= 1.5;
 	}
-	show_alloc_mem();
 	return 0;
 }

@@ -23,16 +23,17 @@ void *get_memory(t_chunk *chunk)
 	return ((char *)chunk + sizeof(t_chunk));
 }
 
-t_chunk *find_freed_chunk(size_t size)
+t_chunk *get_free_chunk(size_t size)
 {
 	t_chunk *iterator;
 
 	iterator = *get_root(get_type(size));
 	while (iterator)
 	{
-		if (iterator->size > size && !is_in_use(iterator))
+		if (iterator->size >= size && !is_in_use(iterator))
 		{
-			split_chunk(iterator, size);
+			if (iterator->size > size)
+				split_chunk(iterator, size);
 			return (iterator);
 		}
 		iterator = iterator->next;
@@ -48,17 +49,19 @@ void merge_chunks(t_chunk *chunk)
 	if (!chunk)
 		return;
 	prev = chunk->prev;
-	next = chunk->next;
-	if (prev && prev + prev->size == chunk && !is_in_use(prev))
+	if (prev && (char *)prev == (char *)chunk - prev->size && !is_in_use(prev))
 	{
 		prev->next = chunk->next;
-		chunk->prev = prev->prev;
-		chunk->size += prev->size;
+		if (prev->next)
+			prev->next->prev = prev;
+		prev->size += chunk->size;
 	}
-	if (next && next - next->size == chunk && !is_in_use(next))
+	next = chunk->next;
+	if (next && (char *)next == (char *)chunk + chunk->size && !is_in_use(next))
 	{
-		next->prev = chunk->prev;
 		chunk->next = next->next;
+		if (chunk->next)
+			chunk->next->prev = chunk;
 		chunk->size += next->size;
 	}
 }
@@ -66,16 +69,25 @@ void merge_chunks(t_chunk *chunk)
 void add_chunk_to_list(t_chunk *chunk, size_t chunk_size)
 {
 	t_chunk **root;
+	t_chunk *last;
 
 	root = get_root(get_type(chunk_size));
-	chunk->size = chunk_size;
-	chunk->prev = NULL;
-	chunk->next = *root;
-	if (*root)
+	last = *root;
+	while (last && last->next)
 	{
-		(*root)->prev = chunk;
+		last = last->next;
 	}
-	*root = chunk;
+	chunk->size = chunk_size;
+	chunk->prev = last;
+	chunk->next = NULL;
+	if (last)
+	{
+		last->next = chunk;
+	}
+	else
+	{
+		*root = chunk;
+	}	
 }
 
 void remove_chunk_from_list(t_chunk *chunk)
