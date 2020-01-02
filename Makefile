@@ -11,7 +11,10 @@ DIR_OBJ = ./obj/
 C_FILES =	malloc.c \
 			free.c \
 			realloc.c \
-			chunk.c \
+			chunk1.c \
+			chunk2.c \
+			chunk3.c \
+			chunk4.c \
 			mutex.c \
 			show_alloc_mem.c
 

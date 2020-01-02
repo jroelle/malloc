@@ -1,0 +1,48 @@
+#include "malloc.h"
+
+t_chunk **get_root(t_type type)
+{
+	static t_chunk *array[TYPE_COUNT] = {NULL};
+	return (&array[type]);
+}
+
+t_chunk *get_chunk(void *memory)
+{
+	return ((t_chunk *)((char *)memory - sizeof(t_chunk)));
+}
+
+void *get_memory(t_chunk *chunk)
+{
+	return ((char *)chunk + sizeof(t_chunk));
+}
+
+t_chunk *get_free_chunk(size_t size)
+{
+	t_chunk *iterator;
+
+	iterator = *get_root(get_type(size));
+	while (iterator)
+	{
+		if (iterator->size >= size && !is_in_use(iterator))
+		{
+			if (iterator->size > size)
+				split_chunk(iterator, size);
+			return (iterator);
+		}
+		iterator = iterator->next;
+	}
+	return (NULL);
+}
+
+void pre_allocate(void)
+{
+	t_chunk **root;
+	size_t page_size;
+
+	page_size = getpagesize();
+	root = get_root(TINY);
+	*root = create_chunk(PRE_ALLOC_TINY_COEFF * page_size);
+
+	root = get_root(SMALL);
+	*root = create_chunk(PRE_ALLOC_SMALL_COEFF * page_size);
+}

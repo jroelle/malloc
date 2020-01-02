@@ -26,7 +26,7 @@ void *realloc(void *ptr, size_t size)
 	new_ptr = malloc(size);
 	if (!ptr || !new_ptr)
 		return (new_ptr);
-	copy_data(new_ptr, ptr, size);
+	copy_data(new_ptr, ptr, min(size, get_chunk(ptr)->size));
 	free(ptr);
 	unlock_mutex();
 	return (new_ptr);

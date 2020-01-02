@@ -7,6 +7,12 @@
 # define TINY_COEFF 1
 # define SMALL_COEFF 16
 
+# define MAX_ITER 100
+# define PROT (PROT_READ | PROT_WRITE)
+# define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS)
+# define PRE_ALLOC_TINY_COEFF TINY_COEFF
+# define PRE_ALLOC_SMALL_COEFF SMALL_COEFF
+
 typedef struct	s_chunk
 {
 	size_t			size;
@@ -49,6 +55,7 @@ void set_free(t_chunk *chunk);
 t_chunk *find_prev_free(t_chunk *chunk);
 t_chunk *find_next_free(t_chunk *chunk);
 void pre_allocate(void);
+int min(int a, int b);
 
 pthread_mutex_t *get_mutex(void);
 void lock_mutex(void);
