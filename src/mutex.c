@@ -1,4 +1,4 @@
-#include "../inc/malloc.h"
+#include "inc/malloc.h"
 
 pthread_mutex_t *get_mutex(void)
 {

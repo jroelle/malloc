@@ -10,6 +10,7 @@ DIR_OBJ = ./obj/
 
 C_FILES =	malloc.c \
 			free.c \
+			realloc.c \
 			chunk.c \
 			mutex.c \
 			show_alloc_mem.c
@@ -17,7 +18,7 @@ C_FILES =	malloc.c \
 SRC = $(addprefix $(DIR_SRC),$(C_FILES:.c=.o))
 OBJ = $(addprefix $(DIR_OBJ),$(C_FILES:.c=.o))
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -I.
 C_FLAGS = -fPIC $(FLAGS)
 O_FLAGS = -shared $(FLAGS)
 
