@@ -7,24 +7,18 @@ void *malloc(size_t size)
 	if (size <= 0 || size >= (size_t)-1 - sizeof(t_chunk))
 		return (NULL);
 	lock_mutex();
-	if (!*get_root(TINY))
-	{
-		pre_allocate();
-	}
+	if (!*get_root(TINY) && !pre_allocate())
+		return (NULL);
+
 	size += sizeof(t_chunk);
 	chunk = get_free_chunk(size);
 	if (!chunk)
-	{
 		chunk = create_chunk(size);
-	}
 	if (!chunk)
-	{
 		return (NULL);
-	}
 	else
-	{
 		set_in_use(chunk);
-	}
+
 	unlock_mutex();
 	return (get_memory(chunk));
 }

@@ -2,7 +2,7 @@
 
 t_chunk **get_root(t_type type)
 {
-	static t_chunk *array[TYPE_COUNT] = {NULL};
+	static t_chunk *array[TYPE_COUNT] = { NULL };
 	return (&array[type]);
 }
 
@@ -34,15 +34,18 @@ t_chunk *get_free_chunk(size_t size)
 	return (NULL);
 }
 
-void pre_allocate(void)
+int pre_allocate(void)
 {
 	t_chunk **root;
 	size_t page_size;
 
 	page_size = getpagesize();
 	root = get_root(TINY);
-	*root = create_chunk(PRE_ALLOC_TINY_COEFF * page_size);
+	if (!(*root = create_chunk(PRE_ALLOC_TINY_COEFF * page_size)))
+		return (0);
 
 	root = get_root(SMALL);
-	*root = create_chunk(PRE_ALLOC_SMALL_COEFF * page_size);
+	if (!(*root = create_chunk(PRE_ALLOC_SMALL_COEFF * page_size)))
+		return (0);
+	return (1);
 }

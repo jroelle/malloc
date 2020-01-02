@@ -54,7 +54,7 @@ void set_in_use(t_chunk *chunk);
 void set_free(t_chunk *chunk);
 t_chunk *find_prev_free(t_chunk *chunk);
 t_chunk *find_next_free(t_chunk *chunk);
-void pre_allocate(void);
+int pre_allocate(void);
 int min(int a, int b);
 
 pthread_mutex_t *get_mutex(void);
