@@ -7,6 +7,13 @@
 #define PRE_ALLOC_TINY_COEFF TINY_COEFF
 #define PRE_ALLOC_SMALL_COEFF SMALL_COEFF
 
+static int min(int a, int b)
+{
+	if (a < b)
+		return a;
+	return b;
+}
+
 t_chunk **get_root(t_type type)
 {
 	static t_chunk *array[TYPE_COUNT] = {NULL};
@@ -55,6 +62,7 @@ void merge_chunks(t_chunk *chunk)
 		if (prev->next)
 			prev->next->prev = prev;
 		prev->size += chunk->size;
+		prev->iterations = min(prev->iterations, chunk->iterations);
 	}
 	next = chunk->next;
 	if (next && (char *)next == (char *)chunk + chunk->size && !is_in_use(next))
@@ -63,6 +71,7 @@ void merge_chunks(t_chunk *chunk)
 		if (chunk->next)
 			chunk->next->prev = chunk;
 		chunk->size += next->size;
+		chunk->iterations = min(chunk->iterations, next->iterations);
 	}
 }
 
@@ -151,6 +160,7 @@ void update_unused(void)
 	while (type < TYPE_COUNT)
 	{
 		iterator = *get_root(type);
+		iterator = iterator ? iterator->next : NULL;
 		while (iterator)
 		{
 			next = iterator->next;
