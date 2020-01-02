@@ -1,5 +1,5 @@
 #include <sys/mman.h>
-#include "inc/malloc.h"
+#include "malloc.h"
 
 #define MAX_ITER 100
 #define PROT (PROT_READ | PROT_WRITE)

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "inc/malloc.h"
+#include "malloc.h"
 
 #define DEFAULT "\x1b[39;49m"
 #define YELLOW "\x1b[33m"

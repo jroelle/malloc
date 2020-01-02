@@ -18,7 +18,7 @@ C_FILES =	malloc.c \
 SRC = $(addprefix $(DIR_SRC),$(C_FILES:.c=.o))
 OBJ = $(addprefix $(DIR_OBJ),$(C_FILES:.c=.o))
 
-FLAGS = -Wall -Werror -Wextra -I.
+FLAGS = -Wall -Werror -Wextra -I inc/
 C_FLAGS = -fPIC $(FLAGS)
 O_FLAGS = -shared $(FLAGS)
 

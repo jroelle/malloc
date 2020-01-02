@@ -1,4 +1,4 @@
-#include "inc/malloc.h"
+#include "malloc.h"
 
 void free(void *ptr)
 {
