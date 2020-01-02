@@ -1,24 +1,46 @@
-#include <stdio.h>
+#include <unistd.h>
 #include "malloc.h"
+
+#define DO_MALLOC 1
+#define DO_REALLOC 0
+#define DO_FREE 1
+
+#define MALLOC_COUNT 20
+#define MALLOC_START_SIZE 1000
+#define MALLOC_COEFF 1.5
+#define REALLOC_COEFF 0.5
 
 void show_alloc_mem();
 
 int main()
 {
 	char *array;
-	int malloc_count = 20;
-	size_t malloc_size = 1000;
-	for (int i = 0; i < malloc_count; ++i)
+	size_t malloc_size = MALLOC_START_SIZE;
+	for (int i = 0; i < MALLOC_COUNT; ++i)
 	{
-		array = malloc(malloc_size);
-		for (int j = 0; j < malloc_size && array; ++j)
+		if (DO_MALLOC)
 		{
-			array[j] = 'A';
+			array = malloc(malloc_size);
+			for (int j = 0; j < malloc_size && array; ++j)
+			{
+				array[j] = 'A';
+			}
+			write(1, "--------- AFTER MALLOC ---------\n", 34);
+			show_alloc_mem();
 		}
-		show_alloc_mem();
-		free(array);
-		show_alloc_mem();
-		malloc_size *= 1.5;
+		if (DO_REALLOC)
+		{
+			array = realloc(array, malloc_size * REALLOC_COEFF);
+			write(1, "--------- AFTER REALLOC ---------\n", 35);
+			show_alloc_mem();
+		}
+		if (DO_FREE)
+		{
+			free(array);
+			write(1, "--------- AFTER FREE ---------\n", 32);
+			show_alloc_mem();
+		}
+		malloc_size *= MALLOC_COEFF;
 	}
 	return 0;
 }

@@ -1,6 +1,21 @@
 #include "inc/malloc.h"
 #include <string.h>
-#define ft_memcpy memcpy
+
+static void copy_data(void *dst, const void *src, size_t size)
+{
+	size_t i;
+	char *cdst;
+	const char *csrc;
+
+	cdst = (char *)dst;
+	csrc = (const char *)src;
+	i = 0;
+	while (i < size)
+	{
+		cdst[i] = csrc[i];
+		++i;
+	}
+}
 
 void *realloc(void *ptr, size_t size)
 {
@@ -12,8 +27,8 @@ void *realloc(void *ptr, size_t size)
 	new_ptr = malloc(size);
 	if (!ptr || !new_ptr)
 		return (new_ptr);
-	ft_memcpy(new_ptr, ptr, size);
+	copy_data(new_ptr, ptr, size);
 	free(ptr);
 	unlock_mutex();
-	return NULL;
+	return (new_ptr);
 }
