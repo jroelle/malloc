@@ -1,6 +1,6 @@
 #include <unistd.h>
-#include "malloc.h"
-#include "show_alloc_mem.h"
+#include "inc/malloc.h"
+#include "inc/show_alloc_mem.h"
 
 #define DO_MALLOC 1
 #define DO_REALLOC 0

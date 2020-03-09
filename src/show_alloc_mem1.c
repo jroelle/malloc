@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "show_alloc_mem.h"
 
 static void	print_chunk(const t_chunk *chunk,
