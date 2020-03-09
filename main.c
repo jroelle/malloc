@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "malloc.h"
+#include "show_alloc_mem.h"
 
 #define DO_MALLOC 1
 #define DO_REALLOC 0
@@ -9,8 +10,6 @@
 #define MALLOC_START_SIZE 1000
 #define MALLOC_COEFF 1.5
 #define REALLOC_COEFF 0.5
-
-void show_alloc_mem();
 
 int main()
 {

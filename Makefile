@@ -16,7 +16,8 @@ C_FILES =	malloc.c \
 			chunk3.c \
 			chunk4.c \
 			mutex.c \
-			show_alloc_mem.c
+			show_alloc_mem1.c \
+			show_alloc_mem2.c
 
 SRC = $(addprefix $(DIR_SRC),$(C_FILES:.c=.o))
 OBJ = $(addprefix $(DIR_OBJ),$(C_FILES:.c=.o))

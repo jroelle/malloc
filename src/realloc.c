@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   realloc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jroelle <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/09 16:10:59 by jroelle           #+#    #+#             */
+/*   Updated: 2020/03/09 16:11:01 by jroelle          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 
-static void copy_data(void *dst, const void *src, size_t size)
+static void	copy_data(void *dst, const void *src, size_t size)
 {
-	size_t i;
-	char *cdst;
-	const char *csrc;
+	size_t		i;
+	char		*cdst;
+	const char	*csrc;
 
 	cdst = (char *)dst;
 	csrc = (const char *)src;
@@ -16,7 +28,7 @@ static void copy_data(void *dst, const void *src, size_t size)
 	}
 }
 
-void *realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
 	void *new_ptr;
 
