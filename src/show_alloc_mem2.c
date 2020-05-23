@@ -12,7 +12,7 @@
 
 #include "show_alloc_mem.h"
 
-char	*get_type_name(t_type type)
+const char	*get_type_name(t_type type)
 {
 	if (TINY == type)
 		return ("TINY");
