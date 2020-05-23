@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "/**"
+                "/**",
+                "inc/*"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
