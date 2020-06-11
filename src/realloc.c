@@ -36,8 +36,6 @@ void		*realloc(void *ptr, size_t size)
 	t_chunk	*chunk;
 
 	lock_mutex();
-	if (!size)
-		return (NULL);
 	new_ptr = do_malloc(size);
 	if (!ptr || !new_ptr)
 		return (ptr);
