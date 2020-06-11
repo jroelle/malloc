@@ -24,7 +24,7 @@ void	*do_malloc(size_t user_size)
 	chunk_size = user_size + sizeof(t_chunk);
 	chunk = get_free_chunk(chunk_size);
 	if (!chunk)
-		chunk = pre_allocate_and_get_free(chunk_size);
+		chunk = preallocate_and_get_free(chunk_size);
 	if (!chunk)
 		return (NULL);
 	else
