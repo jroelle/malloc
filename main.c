@@ -1,9 +1,8 @@
 #include <unistd.h>
 #include <string.h>
-#include "malloc.h"
 #include "show_alloc_mem.h"
 
-#define SHOW_MEMORY 1
+#define SHOW_MEMORY 0
 #define SHOW_MEMORY_CONTENT 0
 #define SHOW_INDEX 0
 
@@ -12,11 +11,10 @@
 #define DO_REALLOC 0
 #define DO_FREE 0
 
-#define MALLOC_COUNT 100
+#define MALLOC_COUNT 1024
 #define MALLOC_START_SIZE 1024
 #define MALLOC_COEFF 1
 #define REALLOC_COEFF 1
-
 
 int main()
 {
