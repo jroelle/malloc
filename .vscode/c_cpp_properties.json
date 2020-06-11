@@ -3,6 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
+                "${default}",
                 "/**",
                 "inc/*"
             ],

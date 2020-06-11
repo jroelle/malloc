@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
+/*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroelle <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/09 16:10:53 by jroelle           #+#    #+#             */
-/*   Updated: 2020/03/09 16:10:55 by jroelle          ###   ########.fr       */
+/*   Created: 2020/03/09 16:08:57 by jroelle           #+#    #+#             */
+/*   Updated: 2020/03/09 16:09:10 by jroelle          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
-#include "mutex.h"
+#ifndef MUTEX_H
+# define MUTEX_H
 
-static pthread_mutex_t	*get_mutex(void)
-{
-	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+void lock_mutex(void);
+void unlock_mutex(void);
 
-	return (&mutex);
-}
-
-void					lock_mutex(void)
-{
-	pthread_mutex_lock(get_mutex());
-}
-
-void					unlock_mutex(void)
-{
-	pthread_mutex_unlock(get_mutex());
-}
+#endif

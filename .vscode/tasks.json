@@ -6,7 +6,7 @@
 		{
 			"label": "build",
 			"type": "shell",
-			"command": "make fclean && make debug && gcc main.c -L. -lft_malloc -ggdb",
+			"command": "make fclean && make debug && gcc main.c -L. -lft_malloc -I inc/ -ggdb",
 			"group": {
 				"kind": "build",
 				"isDefault": true
@@ -16,7 +16,7 @@
 		{
 			"label": "clear",
 			"type": "shell",
-			"command": "make fclean && rm -rf a.out",
+			"command": "make fclean && rm -f a.out",
 			"group": {
 				"kind": "build",
 				"isDefault": true

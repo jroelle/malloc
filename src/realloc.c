@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include "chunk.h"
+#include "mutex.h"
 
 static void	copy_data(void *dst, const void *src, size_t size)
 {
@@ -30,16 +32,20 @@ static void	copy_data(void *dst, const void *src, size_t size)
 
 void		*realloc(void *ptr, size_t size)
 {
-	void *new_ptr;
+	void	*new_ptr;
+	t_chunk	*chunk;
 
 	lock_mutex();
 	if (!size)
 		return (NULL);
 	new_ptr = malloc(size);
 	if (!ptr || !new_ptr)
-		return (new_ptr);
-	copy_data(new_ptr, ptr, min(size, get_chunk(ptr)->size));
-	free(ptr);
+		return (ptr);
+	chunk = find_chunk(ptr);
+	if (!chunk)
+		return (NULL);
+	copy_data(new_ptr, ptr, min(size, chunk->size));
+	free_chunk(chunk);
 	unlock_mutex();
 	return (new_ptr);
 }

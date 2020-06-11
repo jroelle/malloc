@@ -12,41 +12,44 @@
 
 #include "chunk.h"
 
-int		is_in_use(const t_chunk *chunk)
+#define PRE_ALLOC_TINY_COEFF TINY_COEFF
+#define PRE_ALLOC_SMALL_COEFF SMALL_COEFF
+
+size_t	get_pre_allocate_size(t_type type)
 {
-	return (chunk->iterations < 0);
+	int page_size;
+
+	page_size = getpagesize();
+	if (TINY == type)
+		return (PRE_ALLOC_TINY_COEFF * page_size);
+	else if (SMALL == type)
+		return (PRE_ALLOC_SMALL_COEFF * page_size);
+	else
+		return (0);
 }
 
-void	set_in_use(t_chunk *chunk)
+t_chunk	*pre_allocate_and_get_free(size_t chunk_size)
 {
-	chunk->iterations = -1;
-}
+	t_type	type;
+	t_chunk	*chunk;
 
-void	set_free(t_chunk *chunk)
-{
-	chunk->iterations = 0;
-}
-
-t_chunk	*find_prev_free(const t_chunk *chunk)
-{
-	t_chunk *prev;
-
-	prev = chunk->prev;
-	while (prev && is_in_use(prev))
+	type = get_type(chunk_size);
+	if (LARGE == type)
+		return (create_chunk(chunk_size));
+	else
 	{
-		prev = prev->prev;
+		chunk = create_chunk(get_pre_allocate_size(type));
+		if (chunk->size > chunk_size + sizeof(t_chunk))
+			split_chunk(chunk, chunk_size);
+		return (chunk);
 	}
-	return (prev);
 }
 
-t_chunk	*find_next_free(const t_chunk *chunk)
+void	free_chunk(t_chunk *chunk)
 {
-	t_chunk *next;
-
-	next = chunk->next;
-	while (next && is_in_use(next))
+	if (chunk)
 	{
-		next = next->next;
+		set_free(chunk);
+		update_list(chunk);
 	}
-	return (next);
 }

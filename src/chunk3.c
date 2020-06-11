@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "chunk.h"
 
 int		min(int a, int b)
 {
@@ -61,7 +61,7 @@ void	update_unused(void)
 	t_chunk	*next;
 	t_type	type;
 
-	type = 0;
+	type = TYPE_FIRST;
 	while (type < TYPE_COUNT)
 	{
 		iterator = *get_root(type);
@@ -82,14 +82,14 @@ void	update_unused(void)
 	}
 }
 
-t_type	get_type(size_t size)
+t_type	get_type(size_t chunk_size)
 {
 	size_t page_size;
 
 	page_size = getpagesize();
-	if (size <= page_size * TINY_COEFF)
+	if (chunk_size <= page_size * TINY_COEFF)
 		return (TINY);
-	if (size <= page_size * SMALL_COEFF)
+	if (chunk_size <= page_size * SMALL_COEFF)
 		return (SMALL);
 	return (LARGE);
 }

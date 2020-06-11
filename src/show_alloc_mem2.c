@@ -23,7 +23,7 @@ const char	*get_type_name(t_type type)
 	return ("");
 }
 
-void	print(const char *str, const char *color)
+void		print(const char *str, const char *color)
 {
 	short	n;
 	char	*t;
@@ -31,17 +31,26 @@ void	print(const char *str, const char *color)
 	if (!str)
 		return ;
 	if (color)
-		write(1, color, COLOR_LENGTH);
+		write(STDOUT, color, COLOR_LENGTH);
 	n = 0;
 	t = (char *)str;
-	while (*(t++))
+	while (t && *(t++))
 		++n;
-	write(1, str, n);
+	write(STDOUT, str, n);
 	if (color)
-		write(1, DEFAULT, DEFAULT_LENGTH);
+		write(STDOUT, DEF_COLOR, DEF_COLOR_LENGTH);
 }
 
-void	print_unum(unsigned long n, int base, const char *color)
+static void	print_char(char c, const char *color)
+{
+	char str[2];
+
+	str[0] = c;
+	str[1] = 0;
+	print(str, color);
+}
+
+void		print_unum(unsigned long n, int base, const char *color)
 {
 	char c;
 
@@ -51,14 +60,11 @@ void	print_unum(unsigned long n, int base, const char *color)
 		c = n % base + '0';
 	else
 		c = n % base - 10 + 'A';
-	print(&c, color);
+	print_char(c, color);
 }
 
-void	print_hex(const void *ptr, const char *color)
+void		print_hex(const void *ptr, const char *color)
 {
-	intptr_t nptr;
-
 	print("0x", color);
-	nptr = (intptr_t)ptr;
-	print_unum(nptr, 16, color);
+	print_unum((unsigned long)ptr, 16, color);
 }

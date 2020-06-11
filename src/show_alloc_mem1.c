@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "show_alloc_mem.h"
+#include "mutex.h"
 
 static void	print_chunk(const t_chunk *chunk,
 						size_t *total_size, size_t *total_payload_size)
@@ -66,6 +67,7 @@ void		show_alloc_mem(void)
 	size_t	total_size;
 	size_t	total_payload_size;
 
+	lock_mutex();
 	total_size = 0;
 	total_payload_size = 0;
 	type = TINY;
@@ -81,4 +83,5 @@ void		show_alloc_mem(void)
 		++type;
 	}
 	print_total_size(total_size, total_payload_size);
+	unlock_mutex();
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <sys/mman.h>
-#include "malloc.h"
+#include "chunk.h"
 
 void	add_chunk_to_list(t_chunk *chunk, size_t chunk_size)
 {
@@ -47,14 +47,14 @@ void	remove_chunk_from_list(t_chunk *chunk)
 		chunk->next->prev = chunk->prev;
 }
 
-t_chunk	*create_chunk(size_t size)
+t_chunk	*create_chunk(size_t chunk_size)
 {
 	t_chunk *chunk;
 
-	chunk = mmap(NULL, size, PROT, FLAGS, -1, 0);
-	if (chunk == MAP_FAILED)
+	chunk = mmap(NULL, chunk_size, PROT, FLAGS, -1, 0);
+	if (MAP_FAILED == chunk)
 		return (NULL);
-	add_chunk_to_list(chunk, size);
+	add_chunk_to_list(chunk, chunk_size);
 	return (chunk);
 }
 
@@ -64,15 +64,24 @@ int		destroy_chunk(t_chunk *chunk)
 	return (munmap(chunk, chunk->size));
 }
 
-int		split_chunk(t_chunk *chunk, size_t first_size)
+int		split_chunk(t_chunk *chunk, size_t first_chunk_size)
 {
-	t_chunk *second_chunk;
+	t_chunk	*second_chunk;
+	size_t	second_chunk_size;
 
-	if (!chunk || first_size >= chunk->size)
+	if (!chunk || first_chunk_size >= chunk->size)
 		return (0);
-	second_chunk = (t_chunk *)((char *)chunk + first_size);
-	add_chunk_to_list(second_chunk, chunk->size - first_size);
-	set_free(second_chunk);
-	chunk->size = first_size;
-	return (1);
+	second_chunk_size = chunk->size - first_chunk_size;
+	if (second_chunk_size > sizeof(t_chunk))
+	{
+		second_chunk = (t_chunk *)((char *)chunk + first_chunk_size);
+		add_chunk_to_list(second_chunk, second_chunk_size);
+		set_free(second_chunk);
+		chunk->size = first_chunk_size;
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }

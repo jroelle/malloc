@@ -14,36 +14,23 @@
 # define SHOW_ALLOC_MEM_H
 
 # include "malloc.h"
+# include "chunk.h"
 
-#ifdef __linux__
+# define STDOUT 1
 
-# define DEFAULT	"\x1b[39;49m"
-# define YELLOW		"\x1b[33m"
-# define RED		"\x1b[31m"
-# define GREEN		"\x1b[32m"
-# define GRAY		"\x1b[90m"
+# define DEF_COLOR			"\x1b[39;49m"
+# define YELLOW				"\x1b[33m"
+# define RED				"\x1b[31m"
+# define GREEN				"\x1b[32m"
+# define GRAY				"\x1b[90m"
 
-# define DEFAULT_LENGTH	9
-# define COLOR_LENGTH	6
+# define DEF_COLOR_LENGTH	9
+# define COLOR_LENGTH		6
 
-#else
-
-# define DEFAULT	NULL
-# define YELLOW		NULL
-# define RED		NULL
-# define GREEN		NULL
-# define GRAY		NULL
-
-# define DEFAULT_LENGTH	0
-# define COLOR_LENGTH	0
-
-#endif
-
-
-void show_alloc_mem(void);
-const char *get_type_name(t_type type);
-void print(const char *str, const char *color);
-void print_unum(unsigned long n, int base, const char *color);
-void print_hex(const void *ptr, const char *color);
+void		show_alloc_mem(void);
+const char	*get_type_name(t_type type);
+void		print(const char *str, const char *color);
+void		print_unum(unsigned long n, int base, const char *color);
+void		print_hex(const void *ptr, const char *color);
 
 #endif

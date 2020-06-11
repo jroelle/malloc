@@ -11,20 +11,21 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include "chunk.h"
+#include "mutex.h"
 
-void	*malloc(size_t size)
+void	*malloc(size_t user_size)
 {
-	t_chunk *chunk;
+	t_chunk	*chunk;
+	size_t	chunk_size;
 
-	if (size <= 0 || size >= (size_t)-1 - sizeof(t_chunk))
+	if (user_size <= 0 || user_size >= (size_t)-1 - sizeof(t_chunk))
 		return (NULL);
 	lock_mutex();
-	if (!*get_root(TINY) && !pre_allocate())
-		return (NULL);
-	size += sizeof(t_chunk);
-	chunk = get_free_chunk(size);
+	chunk_size = user_size + sizeof(t_chunk);
+	chunk = get_free_chunk(chunk_size);
 	if (!chunk)
-		chunk = create_chunk(size);
+		chunk = pre_allocate_and_get_free(chunk_size);
 	if (!chunk)
 		return (NULL);
 	else
