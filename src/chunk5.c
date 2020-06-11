@@ -12,8 +12,8 @@
 
 #include "chunk.h"
 
-# define PREALLOC_TINY_COEFF 1
-# define PREALLOC_SMALL_COEFF 1
+#define PREALLOC_TINY_COEFF 1
+#define PREALLOC_SMALL_COEFF 1
 
 size_t	get_preallocate_size(t_type type)
 {
