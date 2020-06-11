@@ -19,8 +19,6 @@
 # define SMALL_COEFF 16
 
 # define MAX_ITER 100
-# define PROT (PROT_READ | PROT_WRITE)
-# define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS)
 
 typedef struct	s_chunk
 {

@@ -51,7 +51,8 @@ t_chunk	*create_chunk(size_t chunk_size)
 {
 	t_chunk *chunk;
 
-	chunk = mmap(NULL, chunk_size, PROT, FLAGS, -1, 0);
+	chunk = mmap(NULL, chunk_size, PROT_READ | PROT_WRITE,
+		MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (MAP_FAILED == chunk)
 		return (NULL);
 	add_chunk_to_list(chunk, chunk_size);
