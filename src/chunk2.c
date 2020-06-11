@@ -61,6 +61,11 @@ t_chunk	*create_chunk(size_t chunk_size)
 
 int		destroy_chunk(t_chunk *chunk)
 {
+	size_t page_size;
+
+	page_size = (size_t)getpagesize();
+	if (chunk->size % page_size)
+		split_chunk(chunk, chunk->size / page_size * page_size);
 	remove_chunk_from_list(chunk);
 	return (munmap(chunk, chunk->size));
 }

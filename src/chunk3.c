@@ -69,7 +69,7 @@ void	update_unused(void)
 		while (iterator)
 		{
 			next = iterator->next;
-			if (!is_in_use(iterator))
+			if (!is_in_use(iterator) && iterator->size >= (size_t)getpagesize())
 			{
 				if (iterator->iterations >= MAX_ITER)
 					destroy_chunk(iterator);
