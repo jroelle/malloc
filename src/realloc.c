@@ -38,7 +38,7 @@ void		*realloc(void *ptr, size_t size)
 	lock_mutex();
 	if (!size)
 		return (NULL);
-	new_ptr = malloc(size);
+	new_ptr = do_malloc(size);
 	if (!ptr || !new_ptr)
 		return (ptr);
 	chunk = find_chunk(ptr);

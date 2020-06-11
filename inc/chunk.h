@@ -65,5 +65,6 @@ size_t			get_pre_allocate_size(t_type type);
 t_chunk			*pre_allocate_and_get_free(size_t chunk_size);
 t_chunk			*find_chunk(const void *memory);
 void			free_chunk(t_chunk *chunk);
+void			*do_malloc(size_t user_size);
 
 #endif

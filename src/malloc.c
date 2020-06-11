@@ -14,14 +14,13 @@
 #include "chunk.h"
 #include "mutex.h"
 
-void	*malloc(size_t user_size)
+void	*do_malloc(size_t user_size)
 {
 	t_chunk	*chunk;
 	size_t	chunk_size;
 
-	if (user_size <= 0 || user_size >= (size_t)-1 - sizeof(t_chunk))
+	if (!user_size)
 		return (NULL);
-	lock_mutex();
 	chunk_size = user_size + sizeof(t_chunk);
 	chunk = get_free_chunk(chunk_size);
 	if (!chunk)
@@ -30,6 +29,15 @@ void	*malloc(size_t user_size)
 		return (NULL);
 	else
 		set_in_use(chunk);
-	unlock_mutex();
 	return (get_memory(chunk));
+}
+
+void	*malloc(size_t user_size)
+{
+	void *memory;
+
+	lock_mutex();
+	memory = do_malloc(user_size);
+	unlock_mutex();
+	return (memory);
 }
