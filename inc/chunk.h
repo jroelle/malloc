@@ -18,7 +18,7 @@
 # define TINY_COEFF 2
 # define SMALL_COEFF 16
 
-# define MAX_ITER 100
+# define MAX_ITER 4096
 
 typedef struct	s_chunk
 {
@@ -56,8 +56,6 @@ void			update_unused(void);
 t_type			get_type(size_t chunk_size);
 void			set_in_use(t_chunk *chunk);
 void			set_free(t_chunk *chunk);
-t_chunk			*find_prev_free(const t_chunk *chunk);
-t_chunk			*find_next_free(const t_chunk *chunk);
 int				min(int a, int b);
 size_t			get_preallocate_size(t_type type);
 t_chunk			*preallocate_and_get_free(size_t chunk_size);
