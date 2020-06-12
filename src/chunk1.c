@@ -12,7 +12,7 @@
 
 #include "chunk.h"
 
-t_chunk	**get_root()
+t_chunk	**get_root(void)
 {
 	static t_chunk *root = NULL;
 

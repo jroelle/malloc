@@ -37,7 +37,7 @@ typedef struct	s_chunk
 	int				iterations;
 }				t_chunk;
 
-t_chunk			**get_root();
+t_chunk			**get_root(void);
 t_chunk			*get_chunk(const void *memory);
 void			*get_memory(const t_chunk *chunk);
 t_chunk			*get_free_chunk(size_t chunk_size);

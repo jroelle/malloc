@@ -9,9 +9,9 @@
 #define DO 1
 #define DO_MALLOC 1
 #define DO_REALLOC 0
-#define DO_FREE 1
+#define DO_FREE 0
 
-#define MALLOC_COUNT 1024
+#define MALLOC_COUNT 1
 #define MALLOC_START_SIZE 1024
 #define MALLOC_COEFF 1
 #define REALLOC_COEFF 1

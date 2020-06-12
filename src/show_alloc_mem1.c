@@ -45,7 +45,7 @@ static void	print_total_size(size_t total_size, size_t total_payload_size)
 	print(")\n\n", GRAY);
 }
 
-static void print_type_name(t_type type)
+static void	print_type_name(t_type type)
 {
 	print(get_type_name(type), YELLOW);
 	if (LARGE != type)
@@ -58,7 +58,8 @@ static void print_type_name(t_type type)
 	print("\n", NULL);
 }
 
-static void	print_type_memory(t_type type, size_t *total_size, size_t *total_payload_size)
+static void	print_type_memory(t_type type,
+	size_t *total_size, size_t *total_payload_size)
 {
 	t_chunk	*iterator;
 	int		exist;
