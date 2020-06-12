@@ -1,6 +1,7 @@
+#!/bin/sh
 export LD_LIBRARY_PATH=.
 gcc -I inc/ main.c -L. -lft_malloc
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
     ARG=-l
 else
 	ARG=-v
