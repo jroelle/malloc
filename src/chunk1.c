@@ -12,11 +12,11 @@
 
 #include "chunk.h"
 
-t_chunk	**get_root(t_type type)
+t_chunk	**get_root()
 {
-	static t_chunk *array[TYPE_COUNT] = { NULL };
+	static t_chunk *root = NULL;
 
-	return (&array[type]);
+	return (&root);
 }
 
 t_chunk	*get_chunk(const void *memory)
@@ -35,7 +35,7 @@ t_chunk	*get_free_chunk(size_t chunk_size)
 	size_t	split_chunk_size;
 
 	split_chunk_size = chunk_size + sizeof(t_chunk);
-	iterator = *get_root(get_type(chunk_size));
+	iterator = *get_root();
 	while (iterator)
 	{
 		if (!is_in_use(iterator) &&
@@ -52,20 +52,14 @@ t_chunk	*get_free_chunk(size_t chunk_size)
 
 t_chunk	*find_chunk(const void *memory)
 {
-	t_type	type;
 	t_chunk	*iterator;
 
-	type = TYPE_FIRST;
-	while (type < TYPE_COUNT)
+	iterator = *get_root();
+	while (iterator)
 	{
-		iterator = *get_root(type);
-		while (iterator)
-		{
-			if (get_memory(iterator) == memory)
-				return (iterator);
-			iterator = iterator->next;
-		}
-		++type;
+		if (get_memory(iterator) == memory)
+			return (iterator);
+		iterator = iterator->next;
 	}
 	return (NULL);
 }

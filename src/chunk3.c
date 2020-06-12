@@ -59,26 +59,20 @@ void	update_unused(void)
 {
 	t_chunk	*iterator;
 	t_chunk	*next;
-	t_type	type;
 
-	type = TYPE_FIRST;
-	while (type < TYPE_COUNT)
+	iterator = *get_root();
+	iterator = iterator ? iterator->next : NULL;
+	while (iterator)
 	{
-		iterator = *get_root(type);
-		iterator = iterator ? iterator->next : NULL;
-		while (iterator)
+		next = iterator->next;
+		if (!is_in_use(iterator) && iterator->size >= (size_t)getpagesize())
 		{
-			next = iterator->next;
-			if (!is_in_use(iterator) && iterator->size >= (size_t)getpagesize())
-			{
-				if (iterator->iterations >= MAX_ITER)
-					destroy_chunk(iterator);
-				else
-					++(iterator->iterations);
-			}
-			iterator = next;
+			if (iterator->iterations >= MAX_ITER)
+				destroy_chunk(iterator);
+			else
+				++(iterator->iterations);
 		}
-		++type;
+		iterator = next;
 	}
 }
 

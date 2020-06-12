@@ -18,7 +18,7 @@ void	add_chunk_to_list(t_chunk *chunk, size_t chunk_size)
 	t_chunk **root;
 	t_chunk *last;
 
-	root = get_root(get_type(chunk_size));
+	root = get_root();
 	last = *root;
 	while (last && last->next)
 	{

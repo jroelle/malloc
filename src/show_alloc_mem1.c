@@ -31,7 +31,7 @@ static void	print_chunk(const t_chunk *chunk,
 	print_unum((int)(chunk->size - sizeof(t_chunk)), 10, NULL);
 	print(" (", GRAY);
 	print_unum((int)chunk->size, 10, GRAY);
-	print(") bytes\n", GRAY);
+	print(")\n", GRAY);
 	*total_size += chunk->size;
 	*total_payload_size += chunk->size - sizeof(t_chunk);
 }
@@ -42,20 +42,19 @@ static void	print_total_size(size_t total_size, size_t total_payload_size)
 	print_unum(total_payload_size, 10, YELLOW);
 	print(" (", GRAY);
 	print_unum(total_size, 10, GRAY);
-	print(") bytes\n\n", GRAY);
+	print(")\n\n", GRAY);
 }
 
-static void	print_root(const t_chunk *root, t_type type)
+static void	print_type(t_type type)
 {
 	print("\nROOT ", YELLOW);
 	print(get_type_name(type), YELLOW);
-	print(" : ", YELLOW);
-	print_hex(root, YELLOW);
-	if (type != LARGE)
+	if (LARGE != type)
 	{
-		print("\nMAX ", GRAY);
-		print_unum(type == TINY ? TINY_COEFF * getpagesize() :
+		print(" (MAX ", GRAY);
+		print_unum(TINY == type ? TINY_COEFF * getpagesize() :
 			SMALL_COEFF * getpagesize(), 10, GRAY);
+		print(")", GRAY);
 	}
 	print("\n", NULL);
 }
@@ -70,14 +69,15 @@ void		show_alloc_mem(void)
 	lock_mutex();
 	total_size = 0;
 	total_payload_size = 0;
-	type = TINY;
+	type = TYPE_FIRST;
 	while (type < TYPE_COUNT)
 	{
-		iterator = *get_root(type);
-		print_root(iterator, type);
+		print_type(type);
+		iterator = *get_root();
 		while (iterator)
 		{
-			print_chunk(iterator, &total_size, &total_payload_size);
+			if (get_type(iterator->size) == type)
+				print_chunk(iterator, &total_size, &total_payload_size);
 			iterator = iterator->next;
 		}
 		++type;

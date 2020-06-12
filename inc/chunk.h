@@ -20,6 +20,15 @@
 
 # define MAX_ITER 4096
 
+typedef enum	e_type
+{
+	TINY,
+	SMALL,
+	LARGE,
+
+	TYPE_COUNT,
+	TYPE_FIRST = TINY
+}				t_type;
 typedef struct	s_chunk
 {
 	size_t			size;
@@ -28,19 +37,7 @@ typedef struct	s_chunk
 	int				iterations;
 }				t_chunk;
 
-typedef enum	e_type
-{
-	TINY,
-	SMALL,
-	LARGE,
-
-	TYPE_COUNT,
-
-	TYPE_FIRST = TINY,
-	TYPE_LAST = LARGE
-}				t_type;
-
-t_chunk			**get_root(t_type type);
+t_chunk			**get_root();
 t_chunk			*get_chunk(const void *memory);
 void			*get_memory(const t_chunk *chunk);
 t_chunk			*get_free_chunk(size_t chunk_size);
@@ -57,7 +54,7 @@ t_type			get_type(size_t chunk_size);
 void			set_in_use(t_chunk *chunk);
 void			set_free(t_chunk *chunk);
 int				min(int a, int b);
-size_t			get_preallocate_size(t_type type);
+size_t			get_preallocate_size(size_t chunk_size);
 t_chunk			*preallocate_and_get_free(size_t chunk_size);
 t_chunk			*find_chunk(const void *memory);
 void			free_chunk(t_chunk *chunk);
