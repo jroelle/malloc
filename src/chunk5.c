@@ -50,3 +50,17 @@ void	free_chunk(t_chunk *chunk)
 		update_list(chunk);
 	}
 }
+
+int		min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+int		max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}

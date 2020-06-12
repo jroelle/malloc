@@ -12,13 +12,6 @@
 
 #include "chunk.h"
 
-int		min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
 void	merge_chunks(t_chunk *c)
 {
 	t_chunk *prev;
@@ -31,7 +24,7 @@ void	merge_chunks(t_chunk *c)
 		if (prev->next)
 			prev->next->prev = prev;
 		prev->size += c->size;
-		prev->iterations = min(prev->iterations, c->iterations);
+		prev->iterations = max(prev->iterations, c->iterations);
 		c = prev;
 		prev = prev->prev;
 	}
@@ -42,7 +35,7 @@ void	merge_chunks(t_chunk *c)
 		if (c->next)
 			c->next->prev = c;
 		c->size += next->size;
-		c->iterations = min(c->iterations, next->iterations);
+		c->iterations = max(c->iterations, next->iterations);
 		next = next->next;
 	}
 }
@@ -61,16 +54,17 @@ void	update_unused(void)
 	t_chunk	*next;
 
 	iterator = *get_root();
-	iterator = iterator ? iterator->next : NULL;
 	while (iterator)
 	{
 		next = iterator->next;
-		if (!is_in_use(iterator) && iterator->size >= (size_t)getpagesize())
+		if (!is_in_use(iterator))
 		{
-			if (iterator->iterations >= MAX_ITER)
+			++(iterator->iterations);
+			if (iterator->iterations >= MAX_ITER &&
+				iterator->size >= (size_t)getpagesize())
+			{
 				destroy_chunk(iterator);
-			else
-				++(iterator->iterations);
+			}
 		}
 		iterator = next;
 	}

@@ -18,7 +18,7 @@
 # define TINY_COEFF 2
 # define SMALL_COEFF 16
 
-# define MAX_ITER 4096
+# define MAX_ITER 1024
 
 typedef enum	e_type
 {
@@ -54,6 +54,7 @@ t_type			get_type(size_t chunk_size);
 void			set_in_use(t_chunk *chunk);
 void			set_free(t_chunk *chunk);
 int				min(int a, int b);
+int				max(int a, int b);
 size_t			get_preallocate_size(size_t chunk_size);
 t_chunk			*preallocate_and_get_free(size_t chunk_size);
 t_chunk			*find_chunk(const void *memory);

@@ -39,12 +39,22 @@ void	add_chunk_to_list(t_chunk *chunk, size_t chunk_size)
 
 void	remove_chunk_from_list(t_chunk *chunk)
 {
+	t_chunk **root;
+
 	if (!chunk)
 		return ;
 	if (chunk->prev)
 		chunk->prev->next = chunk->next;
 	if (chunk->next)
 		chunk->next->prev = chunk->prev;
+	root = get_root();
+	if (chunk == *root)
+	{
+		chunk = chunk->next;
+		while (chunk && chunk->next)
+			chunk = chunk->next;
+		*root = chunk;
+	}
 }
 
 t_chunk	*create_chunk(size_t chunk_size)
@@ -81,8 +91,13 @@ int		split_chunk(t_chunk *chunk, size_t first_chunk_size)
 	if (second_chunk_size > sizeof(t_chunk))
 	{
 		second_chunk = (t_chunk *)((char *)chunk + first_chunk_size);
-		add_chunk_to_list(second_chunk, second_chunk_size);
-		set_free(second_chunk);
+		second_chunk->size = second_chunk_size;
+		second_chunk->prev = chunk;
+		second_chunk->next = chunk->next;
+		if (chunk->next)
+			chunk->next->prev = second_chunk;
+		chunk->next = second_chunk;
+		second_chunk->iterations = max(0, chunk->iterations);
 		chunk->size = first_chunk_size;
 		return (1);
 	}

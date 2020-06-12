@@ -2,14 +2,14 @@
 #include <string.h>
 #include "show_alloc_mem.h"
 
-#define SHOW_MEMORY 0
+#define SHOW_MEMORY 1
 #define SHOW_MEMORY_CONTENT 0
 #define SHOW_INDEX 0
 
 #define DO 1
 #define DO_MALLOC 1
 #define DO_REALLOC 0
-#define DO_FREE 0
+#define DO_FREE 1
 
 #define MALLOC_COUNT 1024
 #define MALLOC_START_SIZE 1024
